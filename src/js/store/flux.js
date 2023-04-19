@@ -3,8 +3,6 @@
 //actions:
 //for simplicity's sake, will limit each array to 30 items, since there's issues with missing id's on the API
 
-import { React, useState } from "react";
-
 //id's were checked entering the corresponding fetch URL
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -32,20 +30,21 @@ const getState = ({ getStore, getActions, setStore }) => {
                 			"gender": jsonChar.result.properties.gender,
                 			"name": jsonChar.result.properties.name,
                 			"homeworld": jsonChar.result.properties.homeworld,
-                			"description": jsonChar.result.description
+                			"description": jsonChar.result.description,
+							"link": `/people/${i}`
             			};
             			console.log(auxObj)
             			auxRry.push(newObj);
 					}
 				}
-				setStore.charArray(auxRry)
+				setStore({charArray: auxRry});
 			},
 
 			//planFetch: no issues with any id
 			planFetch : async () => {
 				let auxRry = [];
 				for (let i = 0; i < 30; i++) {
-						const respPlan = await fetch(`https://www.swapi.tech/api/people/${i}`);
+						const respPlan = await fetch(`https://www.swapi.tech/api/planets/${i}`);
             			const jsonPlan = await respPlan.json();
             			let auxObj = {
                 			"height": jsonPlan.result.properties.height,
@@ -57,18 +56,19 @@ const getState = ({ getStore, getActions, setStore }) => {
                 			"gender": jsonPlan.result.properties.gender,
                 			"name": jsonPlan.result.properties.name,
                 			"homeworld": jsonPlan.result.properties.homeworld,
-                			"description": jsonPlan.result.description
+                			"description": jsonPlan.result.description,
+							"link": `/planets/${i}`
             			};
             			console.log(auxObj)
             			auxRry.push(newObj);
 				}
-				setStore.planArray(auxRry);
+				setStore({planArray:auxRry});
 			},
 
 			//vehicFetch: issues with lots of id
 			//will create an auxiliary array containing all the working id, sorting their elements
 			//will iterate on said array to fetch vehicles
-			vehicFetch = async () => {
+			vehicFetch : async () => {
 				let auxRry = [];
 				let auxId = [4,7,6,8,14,18,16,19,20,24,25,30,26,33,34,35,36,37,38,42,44,45,46,50,51,53,54,55,56];
 				auxId.sort();
@@ -93,43 +93,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log(auxObj)
 					auxRry.push(auxObj);
 				}
-				setStore.vehicFetch(auxRry)
-			}
-
-
-
-
-
-
-
-
-
-
-
-
-
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
+				setStore({vehicFetch: auxRry})
 			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
+
+			isFav : name => {
+				let store = getStore();
+				return store.favs.includes(name)
 			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+			addFav : name => {
+				setStore({favs : [...getStore().favs, name]});
+			},
 
-				//reset the global store
-				setStore({ demo: demo });
+			deleteFav : name => {
+				let store = getStore();
+				const auxRry = store.favs.filter((el) => el != name);
+				setStore({favs : auxRry})
 			}
 		}
 	};
