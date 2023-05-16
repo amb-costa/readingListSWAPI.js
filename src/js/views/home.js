@@ -13,7 +13,7 @@ export const Home = () => {
 				<h1 className="text-center">Characters</h1>
 
 				{store.characters.map((char, index) => (
-					<CardCharacter key={index} id={index} character={char} />))
+					<CardCharacter key={index} id={index} character={char} section="character"/>))
 				}
 
 				<h1 className="text-center">Planets</h1>

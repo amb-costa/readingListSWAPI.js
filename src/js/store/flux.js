@@ -8,21 +8,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 		},
 		actions: {
 			getCharacters: async () => {
-				await fetch("https://swapi.dev/api/people/")
+				await fetch("https://www.swapi.tech/api/people/")
 				.then(response => response.json())
-				.then(data => setStore({ characters: data.results }));
-				},
+				.then(data => {
+					console.log(data),
+					setStore({characters : data.results})
+				})
+				.catch(error => console.log(error))},
 		
 			getPlanets: async () => {
 				await fetch("https://swapi.dev/api/planets/")
 				.then(response => response.json())
-				.then(data => setStore({ planets: data.results }));
+				.then(data => {
+					console.log(data),
+					setStore({ planets: data.results })});
 				},
 
 			getVehicles: async () => {
 				await fetch("https://swapi.dev/api/vehicles/")
 				.then(response => response.json())
-				.then(data => setStore({ vehicles: data.results}))
+				.then(data => {
+					console.log(data),
+					setStore({ vehicles: data.results})})
 				},
 
 			isFav : name => {
