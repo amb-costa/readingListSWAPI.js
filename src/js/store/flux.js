@@ -21,7 +21,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then(response => response.json())
 				.then(data => {
 					console.log(data),
-					setStore({ planets: data.results })});
+					setStore({ planets: data.results })})
+				.catch(error => console.log(error))
 				},
 
 			getVehicles: async () => {
@@ -30,7 +31,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then(data => {
 					console.log(data),
 					setStore({ vehicles: data.results})})
-				},
+				.catch(error => console.log(error))},
 
 			isFav : name => {
 				let store = getStore();
