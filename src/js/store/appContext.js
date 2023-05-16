@@ -22,9 +22,10 @@ const injectContext = PassedComponent => {
 		);
 
 		useEffect(() => {
-			state.actions.charFetch(),
-			state.actions.planFetch(),
-			state.actions.vehicFetch()
+			//fetching when page loads for the first time
+			state.actions.getCharacters(),
+			state.actions.getPlanets(),
+			state.actions.getVehicles()
 		}, []);
 
 		// The initial value for the context is not null anymore, but the current state of this component,
