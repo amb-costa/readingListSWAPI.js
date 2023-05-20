@@ -1,54 +1,84 @@
+import { useState, useEffect } from "react";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			characters: [],
 			planets: [],
 			vehicles: [],
-			favs: []
+			favs: [],
+			readyCharacters: false,
+			readyPlanets: false,
+			readyVehicles: false
 		},
+
 		actions: {
-			getCharacters: async () => {
+			//charactersFetch: first, will fetch an array with an object per character: uid, name, url
+			//then, will pick each url and fetch again
+			//results in characters array : object with character properties inside
+			charactersFetch : async () => {
 				await fetch("https://www.swapi.tech/api/people/")
 				.then(response => response.json())
 				.then(data => {
-					console.log(data),
-					setStore({characters : data.results})
-				})
-				.catch(error => console.log(error))},
-		
-			getPlanets: async () => {
-				await fetch("https://swapi.dev/api/planets/")
+					const auxiliary = [];
+					{data.results.map((object) => {
+						fetch(`${object.url}`)
+						.then(response => response.json())
+						.then(data => {auxiliary.push(data.result.properties)})
+					})}
+					setStore({ characters :  auxiliary })
+					setStore({ readyCharacters : true })})
+				},
+			
+			//planetsFetch: first, will fetch an array with an object per planet: uid, name, url
+			//then, will pick each url and fetch again
+			//results in planet array : object with planet properties inside
+			planetsFetch : () => {
+				fetch("https://www.swapi.tech/api/planets/")
 				.then(response => response.json())
 				.then(data => {
-					console.log(data),
-					setStore({ planets: data.results })})
-				.catch(error => console.log(error))
+					let auxiliary = [];
+					{data.results.map((object) => {
+						fetch(`${object.url}`)
+						.then(response => response.json())
+						.then(data => auxiliary.push(data.result.properties))
+					})}
+					setStore({ planets :  auxiliary })
+					setStore({ readyPlanets : true })})
+				},
+			
+			//vehiclesFetch: first, will fetch an array with an object per vehicle: uid, name, url
+			//then, will pick each url and fetch again
+			//results in vehicles array : object with vehicle properties inside
+			vehiclesFetch : async () => {
+				await fetch("https://www.swapi.tech/api/vehicles/")
+				.then(response => response.json())
+				.then(data => {
+					let auxiliary = [];
+					{data.results.map((object) => {
+						fetch(`${object.url}`)
+						.then(response => response.json())
+						.then(data => auxiliary.push(data.result.properties))
+					})} 
+					setStore({ vehicles : auxiliary })
+					setStore({ readyVehicles : true })})				
 				},
 
-			getVehicles: async () => {
-				await fetch("https://swapi.dev/api/vehicles/")
-				.then(response => response.json())
-				.then(data => {
-					console.log(data),
-					setStore({ vehicles: data.results})})
-				.catch(error => console.log(error))},
-
 			isFav : name => {
-				let store = getStore();
-				return store.favs.includes(name)
+				return getStore().favs.includes(name)
 				},
 
 			addFav : name => {
-				setStore({favs : [...getStore().favs, name]});
+				setStore({ favs : [...getStore().favs, name] });
 				},
 
 			deleteFav : name => {
-				let store = getStore();
-				const auxRry = store.favs.filter((el) => el != name);
-				setStore({favs : auxRry})
+				const auxRry = getStore().favs.filter((el) => el != name);
+				setStore({ favs : auxRry })
 			}
 		}
+	}
 	};
-};
+
 
 export default getState;

@@ -1,13 +1,15 @@
 import { Card, Button } from "react-bootstrap";
-import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
+import PropTypes, { object } from "prop-types";
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
+import { propTypes } from "react-bootstrap/esm/Image";
 
-function cardCharacter({ character , id, section}) {
-	const { actions } = useContext(Context);
-	const history = useHistory();
+const CardCharacter = ({ character }) => {
+	const { store, actions } = useContext(Context);
+	
+	
 	return (
+		
 		<Card style={{ width: "16rem" }} className="col-4 text-center mb-4 mt-4 mr-1 d-inline-block ">
 			<Card.Img variant="top" src="https://unsplash.com/photos/c0VRNWVEjOA/download?force=true" />
 			<Card.Body>
@@ -27,10 +29,7 @@ function cardCharacter({ character , id, section}) {
 				</Button>
 				<Button
 					variant="primary"
-					className="mt-2"
-					onClick={() => {
-						history.push("/" + section + "/" + id);
-					}}>
+					className="mt-2">
 					More Info!
 				</Button>
 			</Card.Body>
@@ -38,10 +37,4 @@ function cardCharacter({ character , id, section}) {
 	);
 }
 
-cardCharacter.propTypes = {
-	person: PropTypes.object,
-	id: PropTypes.object,
-	section: PropTypes.object
-};
-
-export default cardCharacter;
+export default CardCharacter

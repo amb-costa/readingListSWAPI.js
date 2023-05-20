@@ -23,9 +23,9 @@ const injectContext = PassedComponent => {
 
 		useEffect(() => {
 			//fetching when page loads for the first time
-			state.actions.getCharacters(),
-			state.actions.getPlanets(),
-			state.actions.getVehicles()
+			state.actions.charactersFetch(),
+			state.actions.planetsFetch(),
+			state.actions.vehiclesFetch()
 		}, []);
 
 		// The initial value for the context is not null anymore, but the current state of this component,
