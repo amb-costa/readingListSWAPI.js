@@ -65,7 +65,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				},
 
 			addFav : name => {
-				console.log(getStore().favs)
 				setStore({ favs : [...getStore().favs, name] });
 				},
 
