@@ -1,58 +1,52 @@
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 
 export const LearnMore = () => {
 	const params = useParams();
-	const { store, actions } = useContext(Context);
 	const [ choice, setChoice ] = useState("");
 	
 	useEffect(() => {
-		if (params.section == "characters") {
-			setChoice(store.characters[params.id]);
-		} else if (params.section == "vehicles") {
-            setChoice(store.vehicles[params.id])
-        }else if (params.section=="planets") {
-			setChoice(store.planets[params.id]);
-		}
+		params.section == "characters" && setChoice(store.characters[params.id])
+		params.section == "vehicles" && setChoice(store.vehicles[params.id])
+		params.section == "planets" && setChoice(store.planets[params.id])
 	}, []);
 
 	const CharacterScroll = ({ character }) => {
 		return(
 			<div className="row mx-0 mt-4 py-1 px-2 justify-content-center">
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Birthyear:</h5>
+					<h5>Birthyear:</h5>
 					<hr/>
 					<h6>{character.birth_year}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Gender:</h5>
+					<h5>Gender:</h5>
 					<hr/>
 					<h6>{character.gender}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Height:</h5>
+					<h5>Height:</h5>
 					<hr/>
 					<h6>{character.height}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Mass:</h5>
+					<h5>Mass:</h5>
 					<hr/>
 					<h6>{character.mass}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Skin Color:</h5>
+					<h5>Skin Color:</h5>
 					<hr/>
 					<h6>{character.skin_color}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Hair Color:</h5>
+					<h5>Hair Color:</h5>
 					<hr/>
 					<h6>{character.hair_color}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Eye Color:</h5>
+					<h5>Eye Color:</h5>
 					<hr/>
 					<h6>{character.eye_color}</h6>
 				</div>
@@ -64,32 +58,32 @@ export const LearnMore = () => {
 		return(
 			<div className="row mx-0 mt-4 py-1 px-2 justify-content-center">
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Population:</h5>
+					<h5>Population:</h5>
 					<hr/>
 					<h6>{planet.population}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Climate:</h5>
+					<h5>Climate:</h5>
 					<hr/>
 					<h6>{planet.climate}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Terrain:</h5>
+					<h5>Terrain:</h5>
 					<hr/>
 					<h6>{planet.terrain}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Diameter:</h5>
+					<h5>Diameter:</h5>
 					<hr/>
 					<h6>{planet.diameter}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Rotation Period:</h5>
+					<h5>Rotation Period:</h5>
 					<hr/>
 					<h6>{planet.rotation_period}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Orbital Period:</h5>
+					<h5>Orbital Period:</h5>
 					<hr/>
 					<h6>{planet.orbital_period}</h6>
 				</div>
@@ -101,32 +95,32 @@ export const LearnMore = () => {
 		return(
 			<div className="row mx-0 mt-4 py-1 px-2 justify-content-center">
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Model:</h5>
+					<h5>Model:</h5>
 					<hr/>
 					<h6>{vehicle.model}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Manufacturer:</h5>
+					<h5>Manufacturer:</h5>
 					<hr/>
 					<h6>{vehicle.manufacturer}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Crew:</h5>
+					<h5>Crew:</h5>
 					<hr/>
 					<h6>{vehicle.crew}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Passengers:</h5>
+					<h5>Passengers:</h5>
 					<hr/>
 					<h6>{vehicle.passengers}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Max Atmospheric Speed:</h5>
+					<h5>Max Atmospheric Speed:</h5>
 					<hr/>
 					<h6>{vehicle.max_atmosphering_speed}</h6>
 				</div>
 				<div className="col b-inline-block mx-2 text-center">
-					<h5 className="">Cost in Credits:</h5>
+					<h5>Cost in Credits:</h5>
 					<hr/>
 					<h6>{vehicle.cost_in_credits}</h6>
 				</div>
@@ -150,14 +144,9 @@ export const LearnMore = () => {
 					arkanian. Vor derlin glymphid droid.</p>
 				</div>
 			</div>
-			{params.section=="characters" ? <CharacterScroll character={choice}/> : (
-				params.section=="planets" ? <PlanetScroll planet={choice}/> : <VehicleScroll vehicle={choice}/>
-			)}		
+			{params.section == "characters" && <CharacterScroll character={choice}/>}
+			{params.section == "planets" && <PlanetScroll planet={choice}/>}
+			{params.section == "vehicles" && <VehicleScroll vehicle={choice}/>}
 		</div>
 	)
-
-	
-	}
-
-
-
+}
